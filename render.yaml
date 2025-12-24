@@ -1,0 +1,25 @@
+# Configuration for Render.com
+# This file facilitates backend deployment on Render
+
+services:
+  - type: web
+    name: crm-backend
+    runtime: node
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm run start:prod
+    envVars:
+      - key: DATABASE_URL
+        sync: false  # You must configure this manually in the dashboard
+      - key: PORT
+        value: 3001
+      - key: CORS_ORIGIN
+        sync: false  # Configure it with your frontend URL on Vercel
+      - key: JWT_SECRET
+        generateValue: true  # Render will generate a random value
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+
